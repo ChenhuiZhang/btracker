@@ -13,6 +13,7 @@ map = Map(gpx.trackpoints, app.config)
 
 print(map.google_coordinates)
 print(map.baidu_coordinates)
+print(map.baidu_coordinates_path)
 
 
 @app.route('/')

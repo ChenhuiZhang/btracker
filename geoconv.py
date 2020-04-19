@@ -34,11 +34,45 @@ class GeoConv:
 
         return result
 
+    def gps_to_baidu_track(self, points):
+        coords = []
+        for p in points:
+            coords.append({
+                'coord_type_input': "wgs84",
+                'longitude': p[0],
+                'latitude': p[1],
+                'loc_time': p[2]
+            })
+
+        URL = (
+            f'http://api.map.baidu.com/rectify/v1/track?'
+        )
+        proxy = {}
+        data = {
+            'ak': self.key,
+            'point_list': json.dumps(coords),
+            'rectify_option': "need_mapmatch:1|" + \
+                              "transport_mode:auto|" + \
+                              "denoise_grade:0|" + \
+                              "vacuate_grade:1",
+            'coord_type_output': "bd09ll"
+        }
+        r = requests.post(URL, proxies=proxy, data=data)
+
+        j = json.loads(r.text)
+
+        result = []
+        for e in j["points"]:
+            result.append((e["longitude"], e["latitude"]))
+
+        return result
+
 
 if __name__ == "__main__":
     key = os.environ.get("BAIDU_WEB_KEY")
     geo = GeoConv(key)
-    gps = [(114.21892734521, 29.575429778924)]
+    gps = [(120.593674, 31.30108, 1584212796),
+           (120.59406, 31.305869, 1584213104)]
     baidu = geo.gps_to_baidu(gps)
     print(f'GPS:   {gps[0]}\n'
           f'Baidu: {baidu[0]}')

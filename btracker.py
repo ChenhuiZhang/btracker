@@ -1,5 +1,6 @@
 import gpxpy
 import pygeohash as pgh
+import time
 from geoconv import GeoConv
 from os.path import splitext
 
@@ -16,12 +17,24 @@ class Map:
             [f'{{lat: {lat}, lng: {lng}}}' for lat, lng, *rest in self._points]
         )
 
+        self.baidu_coordinates = []
+
         geo = GeoConv(ctx["BAIDU_WEB_KEY"])
+        """
         baidu_points = geo.gps_to_baidu(
             [(lng, lat) for lat, lng, *rest in self._points]
         )
         self.baidu_coordinates = ",\n".join(
             [f'{{lat: {lat}, lng: {lng}}}' for lng, lat in baidu_points]
+        )
+        """
+
+        baidu_path = geo.gps_to_baidu_track(
+            [(lng, lat, time.mktime(t.timetuple()))
+             for lat, lng, e, t in self._points]
+        )
+        self.baidu_coordinates_path = ",\n".join(
+            [f'{{lat: {lat}, lng: {lng}}}' for lng, lat in baidu_path]
         )
 
 
@@ -39,7 +52,7 @@ class GPX:
         for track in gpx.tracks:
             for segment in track.segments:
                 for i, p in enumerate(segment.points):
-                    geo_hash = pgh.encode(p.latitude, p.longitude, precision=7)
+                    geo_hash = pgh.encode(p.latitude, p.longitude, precision=9)
                     if last_hash == geo_hash:
                         continue
 
