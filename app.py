@@ -8,16 +8,24 @@ app.config['GOOGLE_KEY'] = ""
 app.config['BAIDU_WEB_KEY'] = os.environ.get('BAIDU_WEB_KEY')
 app.config['BAIDU_JS_KEY'] = os.environ.get('BAIDU_JS_KEY')
 
-gpx = GPX("sample.gpx")
-map = Map(gpx.trackpoints, app.config)
-
-print(map.google_coordinates)
-print(map.baidu_coordinates)
-print(map.baidu_coordinates_path)
 
 
 @app.route('/')
 def index():
+    context = {
+        "title": "Sample"
+    }
+    return render_template('index.html', context=context)
+
+@app.route('/map')
+def map():
+    gpx = GPX("sample.gpx")
+    map = Map(gpx.trackpoints, app.config)
+
+    print(map.google_coordinates)
+    print(map.baidu_coordinates)
+    print(map.baidu_coordinates_path)
+
     context = {
         "key": app.config['BAIDU_JS_KEY'],
         "title": gpx.title

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+    <link rel='stylesheet prefetch' href='https://fonts.googleapis.com/css?family=Roboto:100,300'>
+
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+
+    <style type="text/css">
+      .map-container-4{
+	overflow:hidden;
+	padding-bottom:56.25%;
+	position:relative;
+	height:0;
+      }
+      .map-container-4 iframe{
+	left:0;
+	top:0;
+	height:100%;
+	width:100%;
+	position:absolute;
+      }
+      #wrapper { position: relative; }
+      #over_map { position: relative; top: 0px; left: 0px; z-index: 20; }
+    </style>
+    <title>Body Worn Camera Tracker for {{ context.title }}</title>
+</head>
+
+<body>
+  <div id="wrapper">
+    <div class="fixed-sn white-skin">
+      <main class=" m-0 p-0">
+      <div class="container-fluid m-0 p-0">
+        <div id="map-container-google-4" class="z-depth-1-half map-container-4" style="height: 500px">
+          <iframe src="https://maps.google.com/maps?t=m&z=13&ie=UTF8&output=embed" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
+      </div>
+      </main>
+    </div>
+
+    <div id="over_map" class="upload">
+      <!-- File upload here -->
+    </div>
+  </div>
+
+</body>
+
+</html>
