@@ -1,6 +1,7 @@
 import os
 from btracker import Map, GPX
-from flask import Flask, render_template
+from flask import Flask, request, redirect, render_template, url_for
+from werkzeug.utils import secure_filename
 
 
 app = Flask(__name__)
@@ -17,9 +18,21 @@ def index():
     }
     return render_template('index.html', context=context)
 
-@app.route('/map')
-def map():
-    gpx = GPX("sample.gpx")
+@app.route('/upload', methods=['POST'])
+def upload():
+    gpx = request.files['gpx_file']
+    if gpx:
+        print(gpx.filename)
+        new_filename = secure_filename(gpx.filename)
+        gpx.save(new_filename)
+
+    return redirect(url_for('map', filename=new_filename))
+    #return render_template('index.html', context={ "title": gpx.filename })
+
+@app.route('/map?filename=<filename>')
+def map(filename):
+    print(filename);
+    gpx = GPX(filename)
     map = Map(gpx.trackpoints, app.config)
 
     print(map.google_coordinates)

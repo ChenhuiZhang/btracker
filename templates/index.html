@@ -21,6 +21,7 @@
 </head>
 
 <body>
+   <form action="upload" method="POST" enctype="multipart/form-data">
    <div class="upload">
       <div class="upload-files">
          <header>
@@ -33,7 +34,7 @@
          <div class="body" id="drop">
             <i class="fa fa-file-text-o pointer-none" aria-hidden="true"></i>
             <p class="pointer-none"><b>Drag and drop</b> file here <br /> or <a href="" id="triggerFile">browse</a> to begin the upload</p>
-            <input type="file" multiple="multiple" />
+            <input type="file" name="gpx_file" multiple="multiple" />
          </div>
          <footer>
             <div class="divider">
@@ -43,10 +44,13 @@
             </div>
             <div class="list-files">
             </div>
-            <button class="importar">UPDATE FILES</button>
+            <form>
+               <button class="importar" type="submit">Go</button>
+            </form>
          </footer>
       </div>
    </div>
+   </form>
    <script src="/static/js/index.js"></script>
 </body>
 
