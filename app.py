@@ -1,14 +1,14 @@
 import os
-from btracker import Map, GPX
-from flask import Flask, request, redirect, render_template, url_for
+
+from flask import Flask, redirect, render_template, request, url_for
 from werkzeug.utils import secure_filename
 
+from btracker import GPX, Map
 
 app = Flask(__name__)
 app.config['GOOGLE_KEY'] = ""
 app.config['BAIDU_WEB_KEY'] = os.environ.get('BAIDU_WEB_KEY')
 app.config['BAIDU_JS_KEY'] = os.environ.get('BAIDU_JS_KEY')
-
 
 
 @app.route('/')
@@ -17,6 +17,7 @@ def index():
         "title": "Sample"
     }
     return render_template('index.html', context=context)
+
 
 @app.route('/upload', methods=['POST'])
 def upload():
@@ -27,11 +28,12 @@ def upload():
         gpx.save(new_filename)
 
     return redirect(url_for('map', filename=new_filename))
-    #return render_template('index.html', context={ "title": gpx.filename })
+    # return render_template('index.html', context={ "title": gpx.filename })
+
 
 @app.route('/map?filename=<filename>')
 def map(filename):
-    print(filename);
+    print(filename)
     gpx = GPX(filename)
     map = Map(gpx.trackpoints, app.config)
 
